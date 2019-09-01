@@ -1,0 +1,28 @@
+<div>
+    <div>
+        {{login}}
+    </div>
+    <br>
+    <div *ngFor="let item of results" style="display: flex;
+        flex-direction:column; align-items: center">
+        <input accept="image/*" id="text-button-file" multiple type="file" />
+        <button (click)= 'UploadAvatar()' >Upload new Avatar</button>
+        <span>
+            E-mail : {{item.username}}
+        </span>
+        <span>
+            User's name : {{item.firstName}}
+        </span>
+        <span>
+            Age: {{item.age}}
+        </span>
+        <div>
+            Permissions :
+            <div *ngFor="let per of item.permissions">
+                {{per}}
+            </div>
+        </div>
+
+    </div>
+
+</div>

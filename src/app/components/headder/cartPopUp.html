@@ -1,0 +1,23 @@
+<div>
+    <div>
+        Cart:
+    </div>
+    <div *ngIf='data'>
+        <ul>
+            <li *ngFor="let result of data" style="display: flex; flex-direction:
+                        column">
+                <span>
+                    Title: {{result.title}}
+                </span>
+                <span>
+                    Description: {{result.quantity}}
+                </span>
+                <span>
+                    Price: {{result.price}}
+                </span>
+            </li>
+        </ul>
+
+
+    </div>
+</div>

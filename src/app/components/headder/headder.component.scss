@@ -1,0 +1,39 @@
+$bg_col: yellow;
+$bg_col1: red;
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 10%;
+}
+
+.padd {
+  padding: 10px;
+  font-size: 12px;
+  width: 15%;
+}
+.login-form {
+  text-align: end;
+  background-color: $bg_col;
+  display: flex;
+
+  justify-content: space-between;
+}
+.button {
+  line-height: 20px;
+  font-size: 12px;
+}
+.example-header-image {
+  background-size: 100%;
+}
+
+.avatar-menu {
+  display: flex;
+
+  justify-content: space-between;
+  background-color: $bg_col;
+}

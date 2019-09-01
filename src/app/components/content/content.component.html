@@ -1,0 +1,25 @@
+<div>
+
+    <form [formGroup]="bookForm">
+        <mat-form-field class="example-full-width padd">
+            <input matInput placeholder="Search for Title" type="text" formControlName="bookTitle">
+        </mat-form-field>
+    </form>
+
+
+    <ul>
+        <li *ngFor="let result of results" style="display: flex; flex-direction:
+            column">
+            <span>
+                Title: {{result.title}}
+            </span>
+            <span>
+                Description: {{result.description}}
+            </span>
+            <span>
+                Price: {{result.price}}
+            </span>
+            <button mat-flat-primary-button (click)='addToCart(result)'>Buy Book</button>
+        </li>
+    </ul>
+</div>

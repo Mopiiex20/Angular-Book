@@ -1,0 +1,10 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.formk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.formk > :nth-child(1n) {
+  width: 50%;
+}

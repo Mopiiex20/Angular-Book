@@ -1,0 +1,36 @@
+<div style="width: 100%">
+    <form [formGroup]="RegisterForm" (ngSubmit)="registerNewUser()" class="formk">
+        
+        <mat-form-field class="example-full-width padd">
+            <input
+                matInput
+                placeholder="User's name"
+                formControlName="firstName">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width padd">
+            <input
+                type="text"
+                matInput
+                placeholder="Email"
+                formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width padd">
+            <input
+            type="password"
+                matInput
+                placeholder="Password"
+                formControlName="password">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width padd">
+            <input
+                matInput
+                placeholder="Age"
+                formControlName="age">
+        </mat-form-field>
+        <button mat-flat-button type="submit">Sign Up</button>
+    </form>
+
+</div>
