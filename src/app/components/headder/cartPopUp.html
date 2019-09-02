@@ -2,7 +2,7 @@
     <div>
         Cart:
     </div>
-    <div *ngIf='data'>
+    <div *ngIf='data;  else cartEmpty'>
         <ul>
             <li *ngFor="let result of data" style="display: flex; flex-direction:
                         column">
@@ -10,14 +10,23 @@
                     Title: {{result.title}}
                 </span>
                 <span>
-                    Description: {{result.quantity}}
+                    <div><button (click)='bookIncrement(result)'>+</button> Book
+                        quantity: {{result.quantity}}
+                        <button (click)='bookDecrement(result)'>-</button></div>
                 </span>
                 <span>
-                    Price: {{result.price}}
+                    Price per 1 book: {{result.price}}
                 </span>
             </li>
         </ul>
-
+        <div>
+            Total price : {{totalPrice}}
+        </div>
 
     </div>
+    <ng-template #cartEmpty>
+        <div>
+            Please add some books to cart!
+        </div>
+    </ng-template>
 </div>

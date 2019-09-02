@@ -31,7 +31,7 @@ export class LoginService {
     }
 }
 
-interface Book {
+export interface Book {
     _id: number;
     title: string;
     quantity: number;
@@ -76,6 +76,34 @@ export class CartService {
             booksArray.push(cartData);
             localStorage.removeItem('books');
             localStorage.setItem('books', JSON.stringify(booksArray))
+            this.cartSource.next(booksArray);
+        }
+
+    }
+
+    decrementBook(cartData: Book) {
+        let booksArray: any[] = [];
+        let deleteBook = -10;
+        const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
+        if (currentBooks) {
+            booksArray = currentBooks;
+            booksArray.forEach((book: Book, index) => {
+                if (book._id === cartData._id) {
+                    book.quantity--;
+                    if (book.quantity === 0) { deleteBook = index }
+                }
+            });
+
+            if (deleteBook !== -10) {
+                booksArray.splice(deleteBook, 1)
+            }
+            console.log(booksArray);
+
+            localStorage.removeItem('books');
+            if (booksArray.length !== 0) {
+                localStorage.setItem('books', JSON.stringify(booksArray))
+
+            }
             this.cartSource.next(booksArray);
         }
 

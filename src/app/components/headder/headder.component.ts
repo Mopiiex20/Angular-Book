@@ -4,7 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import AuthService from '../../services/auth.service';
 
 
-import { LoginService, CartService } from '../../services/common.servise';
+import { LoginService, CartService, Book } from '../../services/common.servise';
 
 import { Subscription } from 'rxjs';
 import { JwtHelperService } from "@auth0/angular-jwt";
@@ -17,29 +17,45 @@ import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-shee
 export class CartPopUp implements OnInit {
 
   data: any;
+  totalPrice: number = 0;
 
   subCart: Subscription
   constructor(private _bottomSheetRef: MatBottomSheetRef<CartPopUp>, private cartService: CartService, ) {
     this.subCart = this.cartService.cart$.subscribe(
       cartData => {
+        this.totalPrice = 0;
         const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
-        this.data = currentBooks;
-        console.log(this.data);
+
+        if (currentBooks) {
+          this.data = currentBooks;
+          this.data.forEach((book: Book) => {
+            this.totalPrice += book.quantity * book.price
+          });
+        } else {
+          this.data = undefined;
+        }
 
       });
   }
-
-  ngOnInit() {
-    const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
-    this.data = currentBooks;
-    console.log(this.data);
+  bookIncrement(book: Book) {
+    this.cartService.addToCart(book);
   }
 
+  bookDecrement(book: Book) {
+    this.cartService.decrementBook(book)
+  }
 
-
-
+  ngOnInit() {
+    this.totalPrice = 0;
+    const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
+    if (currentBooks) {
+      this.data = currentBooks;
+      this.data.forEach(book => {
+        this.totalPrice += book.quantity * book.price
+      });
+    }
+  }
 }
-
 
 @Component({
   selector: 'app-headder',
@@ -92,11 +108,14 @@ export class HeadderComponent implements OnInit, DoCheck {
       cartData => {
         const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
         let num = 0;
-        currentBooks.forEach((book: any) => {
-          num += book.quantity;
+        if (currentBooks) {
+          currentBooks.forEach((book: any) => {
+            num += book.quantity;
 
-        });
-        this.cartBadge = num;
+          });
+          this.cartBadge = num;
+        } else this.cartBadge = undefined;
+
       });
   }
 
@@ -104,12 +123,11 @@ export class HeadderComponent implements OnInit, DoCheck {
     this._bottomSheet.open(CartPopUp);
   }
 
-
-
   logout() {
     this.trigger.openMenu();
     localStorage.clear()
     this.check = !this.check
+    this.cartBadge = undefined;
   }
 
   onSubmit() {
@@ -119,9 +137,7 @@ export class HeadderComponent implements OnInit, DoCheck {
       this.token = data.token;
       localStorage.setItem('token', this.token);
       this.check = true;
-    });
-    let mission = 'LOGIN';
-    this.loginService.announceMission(mission);
+    })
   }
 
   ngDoCheck() {
