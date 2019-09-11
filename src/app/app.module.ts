@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,55 +17,58 @@ import AuthService from './services/auth.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LoginService } from './services/common.servise';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { UserService } from './services/users.service';
-import { GuardsCheckEnd } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard-service';
+import { AdminComponent, Dialog } from './components/admin/admin.component';
+import { MatNativeDateModule } from '@angular/material/core'
+import { NotWorkingComponent } from './components/notWorkingComponent/notWorking';
+import { environment } from 'src/environments/environment';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { BookInfoComponent } from './components/bookInfo/bookInfo.component';
 
 export function tokenGetter() {
 
   return localStorage.getItem("token");
 
 }
-
+environment
 
 @NgModule({
-  declarations: [
-    HighlightDirective,
-    AppComponent,
-    HeadderComponent,
-    ContentComponent,
-    RegisterComponent,
-    ProfileComponent,
-    CartPopUp
-  ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ['192.168.0.100:3500'],
-        blacklistedRoutes: [
-          "192.168.0.100:3500/login",
-          "192.168.0.100:3500/books"
-
-        ]
-      }
-    })
   ],
-  entryComponents: [CartPopUp],
+  entryComponents: [CartPopUp, Dialog],
+  declarations: [
+    Dialog,
+    HighlightDirective,
+    AppComponent,
+    NotWorkingComponent,
+    HeadderComponent,
+    ContentComponent,
+    RegisterComponent,
+    ProfileComponent,
+    AdminComponent,
+    BookInfoComponent,
+
+    CartPopUp,
+  ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true },
     UserService,
-    JwtHelperService,
     LoginService,
     AuthService,
     AuthGuardService,
-    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptorService, multi: true },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ],
   bootstrap: [AppComponent],

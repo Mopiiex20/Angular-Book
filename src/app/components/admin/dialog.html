@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Create New Book</h1>
+<mat-dialog-content>
+    <form (ngSubmit)="addBook()" class="dialog">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Title" [formControl]="title">
+            <mat-error *ngIf="description.hasError('required')">
+                Title is required!
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input type="text" matInput placeholder="Description" [formControl]="description">
+            <mat-error *ngIf="description.hasError('required')">
+                Description is required!
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <input type="number" matInput placeholder="Price" [formControl]="price">
+            <mat-error *ngIf="description.hasError('required')">
+                Price is required!
+            </mat-error>
+        </mat-form-field>
+        <button mat-flat-button type="submit">Add</button>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+</div>

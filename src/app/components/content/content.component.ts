@@ -5,7 +5,10 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { debounceTime, tap, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import BookService from '../../services/books.service';
-import { CartService } from 'src/app/services/common.servise';
+import { CartService, LoginService } from 'src/app/services/common.servise';
+import { UserService } from 'src/app/services/users.service';
+import AuthService from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-content',
@@ -20,15 +23,39 @@ export class ContentComponent implements OnInit {
   })
 
   results: any[];
+  isLoggedIn: boolean = false;
+  loading: boolean = true;
 
+  constructor(
+    private formBuilder: FormBuilder,
+    private bookService: BookService,
+    private authService: AuthService,
+    private cartServise: CartService,
+    private loginService: LoginService,
+    private router: Router
 
-  constructor(private formBuilder: FormBuilder, private bookService: BookService, private cartServise: CartService) { }
+  ) {
+    this.loginService.login$.subscribe(
+      (isLoggedIn: boolean) => {
+        this.isLoggedIn = isLoggedIn
+      }
+    )
+  }
 
   ngOnInit() {
     this.searchBook();
     this.bookService.get('books').subscribe((data: any) => {
-      this.results = data
+      this.results = data;
+      this.loading = false;
     });
+    let token = this.authService.getToken();
+    if (token) {
+      this.isLoggedIn = true
+    }
+  }
+  goToBookDefinition(bookId: number) {
+    let caller = bookId
+    this.router.navigate(["bookInfo", caller])
   }
 
   addToCart(book: any) {
@@ -39,7 +66,6 @@ export class ContentComponent implements OnInit {
     this.bookTitle.valueChanges.pipe(
       debounceTime(1000),
       switchMap((title) => {
-        console.log(title)
         return this.bookService.searchBook(title);
       })
     ).subscribe(res => this.results = res);

@@ -1,34 +1,44 @@
 <div style="width: 100%">
-    <form [formGroup]="RegisterForm" (ngSubmit)="registerNewUser()" class="formk">
-        
+    <form [formGroup]="form" (ngSubmit)="registerNewUser()" class="formk">
+
         <mat-form-field class="example-full-width padd">
-            <input
-                matInput
-                placeholder="User's name"
-                formControlName="firstName">
+            <input matInput placeholder="User's name" formControlName="firstName" [formGroup]="form">
+            <mat-error *ngIf="form.get('firstName').hasError('required')">
+                User's name is required!
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width padd">
-            <input
-                type="text"
-                matInput
-                placeholder="Email"
-                formControlName="email">
+            <input type="text" matInput placeholder="Email" formControlName="email" [formGroup]="form">
+            <mat-error *ngIf="form.get('email').hasError('required')">
+                Email is required!
+            </mat-error>
+            <mat-error *ngIf="form.get('email').hasError('email')">
+                Email is incorrect!
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width padd">
-            <input
-            type="password"
-                matInput
-                placeholder="Password"
-                formControlName="password">
+            <input type="password" matInput placeholder="Password" formControlName="password" [formGroup]="form">
+            <mat-error *ngIf="form.get('password').hasError('required')">
+                Password is required!
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width padd">
-            <input
-                matInput
-                placeholder="Age"
-                formControlName="age">
+            <input type="password" matInput placeholder="Confirm Password" formControlName="passwordCheck"
+                [formGroup]="form">
+            <mat-error *ngIf="form.get('passwordCheck').getError('MatchPassword')">
+                Password not match!
+            </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field class="example-full-width padd">
+            <input matInput placeholder="Age" formControlName="age" [formGroup]="form">
+            <mat-error *ngIf="form.get('age').hasError('required')">
+                Age is required!
+            </mat-error>
         </mat-form-field>
         <button mat-flat-button type="submit">Sign Up</button>
     </form>

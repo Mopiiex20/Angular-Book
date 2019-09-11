@@ -6,6 +6,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import {
   AuthGuardService as AuthGuard
 } from './services/auth-guard-service';
+import { AdminComponent } from './components/admin/admin.component';
+import { NotWorkingComponent } from './components/notWorkingComponent/notWorking';
+import { BookInfoComponent } from './components/bookInfo/bookInfo.component';
 
 const routes: Routes = [
   { path: '', component: ContentComponent },
@@ -14,6 +17,15 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin', component: AdminComponent, canActivate: [AuthGuard]
+  },
+  {
+    path: 'serverError/:caller', component: NotWorkingComponent
+  },
+  {
+    path: 'bookInfo/:bookId', component: BookInfoComponent
   },
   { path: '**', redirectTo: '/' }
 ];

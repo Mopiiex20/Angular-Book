@@ -1,24 +1,44 @@
-<div>
+<div *ngIf="results">
     <div>
         {{login}}
     </div>
     <br>
-    <div *ngFor="let item of results" style="display: flex;
+    <div style="display: flex;
         flex-direction:column; align-items: center">
+        <mat-card class="avatar">
+            <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': avatar}">
+            </div>
+        </mat-card>
+
         <input accept="image/*" id="text-button-file" multiple type="file" />
-        <button (click)= 'UploadAvatar()' >Upload new Avatar</button>
+        <button (click)='UploadAvatar()'>Upload new Avatar</button>
         <span>
-            E-mail : {{item.username}}
+            E-mail : {{results.email}}
         </span>
+        <ng-container *ngIf="changingName; else elseTemplate">
+            <form [formGroup]="ChangeNameForm">
+                <mat-form-field>
+                    <input matInput placeholder="New name" formControlName="firstName">
+                </mat-form-field>
+            </form>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <span>
+                User's name : {{results.firstName}}
+            </span>
+        </ng-template>
+        <ng-container *ngIf="changingName; else elseTemplate1">
+            <button (click)="onSubmit1()">Set new Name</button>
+        </ng-container>
+        <ng-template #elseTemplate1>
+            <button type="submit" (click)="changeName()">Change Name</button>
+        </ng-template>
         <span>
-            User's name : {{item.firstName}}
-        </span>
-        <span>
-            Age: {{item.age}}
+            Age: {{results.age}}
         </span>
         <div>
             Permissions :
-            <div *ngFor="let per of item.permissions">
+            <div *ngFor="let per of permissions">
                 {{per}}
             </div>
         </div>

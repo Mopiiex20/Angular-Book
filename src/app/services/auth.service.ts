@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export default class AuthService {
     providedIn: 'root'
     stUrl = environment.url;
-    constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
+    constructor(private http: HttpClient) { }
 
 
     public isAuthenticated(): boolean {
         const token = localStorage.getItem('token');
-        // Check whether the token is expired and return
-        // true or false
-        return !this.jwtHelper.isTokenExpired(token);
+        if (token) {
+            return true
+        }
+        return false
     }
 
     post(url: string, body: any): Observable<any> {

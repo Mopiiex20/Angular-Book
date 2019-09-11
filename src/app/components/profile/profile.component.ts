@@ -3,6 +3,8 @@ import AuthService from '../../services/auth.service';
 import { LoginService } from '../../services/common.servise';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/users.service';
+import * as jwt_decode from "jwt-decode";
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'profile',
@@ -11,17 +13,23 @@ import { UserService } from '../../services/users.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  results: any[];
+  results: any;
   login: string;
   subscription: Subscription;
   avatar: any;
+  changingName: boolean = false;
+  permissions: any[] = [];
 
-  constructor(private missionService: LoginService, private authService: AuthService, private userService: UserService) {
-    this.subscription = this.missionService.missionAnnounced$.subscribe(
-      mission => {
-        this.login = mission;
-      });
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private loginService: LoginService
+  ) {
   }
+
+  ChangeNameForm = new FormGroup({
+    firstName: new FormControl(''),
+  });
 
   toBase64 = (file: any) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -29,36 +37,59 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
+
   async UploadAvatar() {
     let path: any = document.querySelector("#text-button-file") as HTMLElement;
 
     if (path.value !== "") {
-      await this.toBase64(path.files[0]).then((json) => this.avatar = json);
+      let avatar: any;
+      await this.toBase64(path.files[0]).then((json) => avatar = json);
       path.value = "";
-      console.log(this.avatar);
       const body = {
-        avatar : this.avatar
+        avatar
       }
-      this.userService.put('users/1', body).subscribe((data:any)=> console.log(data)
-      )
+      this.userService.put(`${this.results.id}`, body)
+        .subscribe();
+      this.avatar = `url("${avatar}")`;
+      this.loginService.setAvatar(avatar);
+
 
 
     } else { alert("Please pick some picture to upload") }
   }
 
   ngOnInit() {
+    this.results = undefined;
+    const token = this.authService.getToken()
+    const decoded = jwt_decode(token) as any;
+    this.userService.getAvatar(decoded.id).subscribe(
+      (data: any) => {
+        this.avatar = `url("${data.avatar}")`;
+        this.permissions = decoded.permissions;
+      }
+    )
+    this.userService.getOne(`${decoded.id}`).subscribe(
+      data => {
+        this.results = data.user;
+      }
+    )
+  }
+  onSubmit1() {
+    this.userService.put(`${this.results.id}`, this.ChangeNameForm.value).subscribe()
+    this.results.firstName = this.ChangeNameForm.value.firstName
+    this.changingName = false;
+    this.loginService.setName(this.ChangeNameForm.value.firstName);
 
-    this.results = [];
-    this.authService.get('users/currentUser').subscribe((data: any) => {
-      this.results.push(data.user);
-      console.log(this.results);
-    }
-    );
+  }
+  changeName() {
+    this.ChangeNameForm.patchValue({
+      firstName: this.results.firstName
+    })
+    this.changingName = true;
   }
 
   ngOnDestroy() {
     this.results = [];
-    // this.subscription.unsubscribe();
   }
 
 }

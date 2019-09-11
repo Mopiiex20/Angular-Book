@@ -12,24 +12,28 @@ interface LoginRequest {
     providedIn: 'root'
 })
 export class LoginService {
-
-    // Observable string sources
-    private missionAnnouncedSource = new Subject<string>();
     private registerSource = new Subject<LoginRequest>();
-
-    // Observable string streams
-    missionAnnounced$ = this.missionAnnouncedSource.asObservable();
+    private loginSource = new Subject<boolean>();
+    private avatarSource = new Subject<string>();
+    private nameSource = new Subject<string>();
     register$ = this.registerSource.asObservable();
-
-
-    // Service message commands
-    announceMission(mission: string) {
-        this.missionAnnouncedSource.next(mission);
+    login$ = this.loginSource.asObservable();
+    avatar$ = this.avatarSource.asObservable();
+    name$ = this.nameSource.asObservable();
+    setAvatar(avatar: string) {
+        this.avatarSource.next(avatar);
+    }
+    setName(name: string) {
+        this.nameSource.next(name);
+    }
+    setLogin(isLoggedIn: boolean) {
+        this.loginSource.next(isLoggedIn);
     }
     registerToLogin(loginData: any) {
         this.registerSource.next(loginData);
     }
 }
+
 
 export interface Book {
     _id: number;
@@ -97,7 +101,6 @@ export class CartService {
             if (deleteBook !== -10) {
                 booksArray.splice(deleteBook, 1)
             }
-            console.log(booksArray);
 
             localStorage.removeItem('books');
             if (booksArray.length !== 0) {

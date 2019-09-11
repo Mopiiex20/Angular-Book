@@ -1,25 +1,38 @@
-<div>
-
+<ng-container *ngIf="loading; else elseTempl">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-container>
+<ng-template #elseTempl>
     <form [formGroup]="bookForm">
         <mat-form-field class="example-full-width padd">
-            <input matInput placeholder="Search for Title" type="text" formControlName="bookTitle">
+            <input matInput placeholder="Search for Title" type="text"
+                formControlName="bookTitle">
         </mat-form-field>
     </form>
-
-
     <ul>
         <li *ngFor="let result of results" style="display: flex; flex-direction:
             column">
-            <span>
+            <label (click)="goToBookDefinition(result._id)">
                 Title: {{result.title}}
-            </span>
-            <span>
-                Description: {{result.description}}
-            </span>
+            </label>
+
+            <div>
+                Description: {{(result.description.length>4)?
+                (result.description | slice:0:3)+'..':(result.description)}}
+            </div>
+
             <span>
                 Price: {{result.price}}
             </span>
-            <button mat-flat-primary-button (click)='addToCart(result)'>Buy Book</button>
+            <ng-container *ngIf="isLoggedIn; else elseTemplate">
+                <button mat-flat-primary-button (click)='addToCart(result)'>Buy
+                    Book</button>
+            </ng-container>
+            <ng-template #elseTemplate>
+                <button mat-flat-primary-button matTooltip="Please Log
+                    In to buy some books">Buy Book</button>
+            </ng-template>
+
+
         </li>
     </ul>
-</div>
+</ng-template>
