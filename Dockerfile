@@ -1,4 +1,4 @@
-FROM node:10.0
+FROM node:10.9
 
 WORKDIR /nodeapp
 
@@ -11,4 +11,4 @@ RUN npm run build
 
 EXPOSE 4200
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run start" ]
