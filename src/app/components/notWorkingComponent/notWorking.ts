@@ -12,5 +12,4 @@ export class NotWorkingComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => this.myParam = params['caller']);
   }
-
 }
