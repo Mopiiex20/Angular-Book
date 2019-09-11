@@ -3,8 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-NotWorkingComponent',
-  templateUrl: './notWorkingComponent.component.html',
-  styleUrls: ['./notWorkingComponent.component.css']
+  templateUrl: './NotWorkingComponent.component.html',
+  styleUrls: ['./NotWorkingComponent.component.css']
 })
 export class NotWorkingComponent implements OnInit {
   myParam: any;
