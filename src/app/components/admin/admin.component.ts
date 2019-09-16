@@ -4,7 +4,7 @@ import BookService from 'src/app/services/books.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from 'src/app/services/users.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,8 +30,8 @@ export class AdminComponent implements OnInit, DoCheck {
 
   private selection = new SelectionModel<Book>(true, []);
   toggleDeleteSelected: boolean = false;
- private editing: number = null;
- private currentlyEditing: boolean = false
+  private editing: number = null;
+  private currentlyEditing: boolean = false
 
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -66,7 +66,7 @@ export class AdminComponent implements OnInit, DoCheck {
 
   stopEditing(bookId: number) {
     this.booksService.updateBook(`books/${bookId}`, this.EditForm.value).subscribe(
-     
+
     )
     this.booksData.forEach((book: Book) => {
       if (book._id === bookId) {
@@ -178,35 +178,34 @@ export class Dialog implements OnInit {
   constructor(private snackBar: MatSnackBar, private bookServise: BookService, public dialogRef: MatDialogRef<Dialog>) { }
   DialogRef: MatDialogRef<Dialog>;
 
+  BookForm = new FormGroup({
+    title: new FormControl('', [
+      Validators.required
+    ]),
+    description: new FormControl('', [
+      Validators.required
+    ]),
+    price: new FormControl('', [
+      Validators.required
+    ])
+  }
+  )
 
-  title = new FormControl('', [
-    Validators.required
-  ]);
-  description = new FormControl('', [
-    Validators.required
-  ]);
-  price = new FormControl('', [
-    Validators.required
-  ]);
 
   addBook() {
-    if (!this.title.hasError('required')) {
-      if (!this.description.hasError('required')) {
-        if (!this.price.hasError('required')) {
-          const data = {
-            title: this.title.value,
-            description: this.description.value,
-            price: this.price.value
-          }
-          this.bookServise.create(data).subscribe(
-            data1 => {
-              this.dialogRef.close(data);
-              this.snackBar.open(`${data1.message}`)
-            })
-        }
-      }
+
+    const data = {
+      title: this.BookForm.get('title').value,
+      description: this.BookForm.get('description').value,
+      price: this.BookForm.get('price').value,
     }
+    this.bookServise.create(data).subscribe(
+      data1 => {
+        this.dialogRef.close(data);
+        this.snackBar.open(`${data1.message}`)
+      })
   }
+
   ngOnInit() {
   }
 }
