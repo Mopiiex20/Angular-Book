@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { UserModel } from '../models/login-model';
 
 @Injectable()
 export default class AuthService {
@@ -18,7 +19,7 @@ export default class AuthService {
         return false
     }
 
-    post(url: string, body: any): Observable<any> {
+    post(url: string, body: any): Observable<UserModel> {
         return this.http.post<any>(`${this.stUrl}${url}`, body)
     }
 

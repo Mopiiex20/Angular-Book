@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { BooksModel } from '../models/books-model';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,7 @@ export default class BookService {
         return this.http.get<any>(`${this.bookUrl}books/id/${url}`)
     }
 
-    get(url: string): Observable<any> {
+    get(url: string): Observable<BooksModel[]> {
         return this.http.get<any>(`${this.bookUrl}${url}`)
     }
 

@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import BooksService from '../../services/books.service'
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { debounceTime, tap, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import BookService from '../../services/books.service';
 import { CartService, LoginService } from 'src/app/services/common.servise';
-import { UserService } from 'src/app/services/users.service';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { BooksModel } from 'src/app/models/books-model';
 
 @Component({
   selector: 'app-content',
@@ -22,7 +19,7 @@ export class ContentComponent implements OnInit {
     bookTitle: this.bookTitle
   })
 
-  results: any[];
+  results: BooksModel[];
   isLoggedIn: boolean = false;
   loading: boolean = true;
 
@@ -33,7 +30,6 @@ export class ContentComponent implements OnInit {
     private cartServise: CartService,
     private loginService: LoginService,
     private router: Router
-
   ) {
     this.loginService.login$.subscribe(
       (isLoggedIn: boolean) => {
@@ -44,7 +40,7 @@ export class ContentComponent implements OnInit {
 
   ngOnInit() {
     this.searchBook();
-    this.bookService.get('books').subscribe((data: any) => {
+    this.bookService.get('books').subscribe((data: BooksModel[]) => {
       this.results = data;
       this.loading = false;
     });

@@ -18,13 +18,12 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { LoginService } from './services/common.servise';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { UserService } from './services/users.service';
-import { AuthGuardService } from './services/auth-guard-service';
 import { AdminComponent, Dialog } from './components/admin/admin.component';
 import { MatNativeDateModule } from '@angular/material/core'
 import { NotWorkingComponent } from './components/notWorkingComponent/notWorking';
 import { environment } from 'src/environments/environment';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BookInfoComponent } from './components/bookInfo/bookInfo.component';
+import { CoreModule } from './core/core.module';
 
 export function tokenGetter() {
 
@@ -35,6 +34,7 @@ environment
 
 @NgModule({
   imports: [
+    CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -55,12 +55,11 @@ environment
     AppComponent,
     NotWorkingComponent,
     HeadderComponent,
-    ContentComponent,
     RegisterComponent,
     ProfileComponent,
     AdminComponent,
     BookInfoComponent,
-
+    ContentComponent,
     CartPopUp,
   ],
   providers: [
@@ -68,7 +67,6 @@ environment
     UserService,
     LoginService,
     AuthService,
-    AuthGuardService,
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ],
   bootstrap: [AppComponent],
