@@ -3,12 +3,13 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatMenuTrigger } from '@angular/material/menu';
 import AuthService from '../../services/auth.service';
 import * as jwt_decode from "jwt-decode";
-import { LoginService, CartService, Book } from '../../services/common.servise';
+import { LoginService, CartService } from '../../services/common.servise';
 
 import { Subscription } from 'rxjs';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from 'src/app/services/users.service';
+import { Book } from 'src/app/models/books-model';
 
 
 
@@ -119,7 +120,7 @@ export class HeadderComponent implements OnInit, DoCheck {
         const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
         let num = 0;
         if (currentBooks) {
-          currentBooks.forEach((book: any) => {
+          currentBooks.forEach((book: Book) => {
             num += book.quantity;
           });
           this.cartBadge = num;
@@ -214,7 +215,7 @@ export class HeadderComponent implements OnInit, DoCheck {
       const currentBooks: any[] = JSON.parse(localStorage.getItem('books'));
       if (currentBooks) {
         let num = 0;
-        currentBooks.forEach((book: any) => {
+        currentBooks.forEach((book: Book) => {
           num += book.quantity;
           this.cartBadge = num;
         });

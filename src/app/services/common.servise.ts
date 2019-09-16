@@ -1,5 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Book } from '../models/books-model';
 
 
 
@@ -34,14 +35,6 @@ export class LoginService {
     }
 }
 
-
-export interface Book {
-    _id: number;
-    title: string;
-    quantity: number;
-    description: string;
-    price: number;
-}
 
 @Injectable({
     providedIn: 'root'

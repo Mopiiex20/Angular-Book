@@ -1,29 +1,16 @@
-import { Component, OnInit, OnChanges, DoCheck, ViewChild, Inject } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { Component, OnInit, DoCheck, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import BookService from 'src/app/services/books.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { UserService } from 'src/app/services/users.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Book } from 'src/app/models/books-model';
+import { UserModel } from 'src/app/models/login-model';
 
-
-export interface Book {
-  _id: number;
-  title: string;
-  description: string;
-  price: number;
-}
-export interface DialogData {
-  title: string;
-  description: string;
-  price: number;
-}
 
 @Component({
   selector: 'admin',
@@ -66,7 +53,7 @@ export class AdminComponent implements OnInit, DoCheck {
 
   startEditing(bookId: any) {
     let curBook = this.booksDataSource._data._value.find(
-      (book: any) => book._id === bookId
+      (book: Book) => book._id === bookId
     )
     this.EditForm.patchValue({
       title: curBook.title,
@@ -77,11 +64,11 @@ export class AdminComponent implements OnInit, DoCheck {
     this.currentlyEditing = true
   }
 
-  stopEditing(bookId: any) {
+  stopEditing(bookId: number) {
     this.booksService.updateBook(`books/${bookId}`, this.EditForm.value).subscribe(
      
     )
-    this.booksData.forEach((book: any) => {
+    this.booksData.forEach((book: Book) => {
       if (book._id === bookId) {
         book.title = this.EditForm.value.title;
         book.description = this.EditForm.value.description;
@@ -131,7 +118,7 @@ export class AdminComponent implements OnInit, DoCheck {
     this.usersService.get('users').subscribe((data: any) => {
 
       this.usersData = data.users;
-      this.usersDataSource = new MatTableDataSource<any>(data.users);
+      this.usersDataSource = new MatTableDataSource<UserModel>(data.users);
       this.usersDataSource.paginator = this.paginator;
     })
   }
@@ -191,6 +178,7 @@ export class Dialog implements OnInit {
   constructor(private snackBar: MatSnackBar, private bookServise: BookService, public dialogRef: MatDialogRef<Dialog>) { }
   DialogRef: MatDialogRef<Dialog>;
 
+
   title = new FormControl('', [
     Validators.required
   ]);
@@ -215,11 +203,9 @@ export class Dialog implements OnInit {
               this.dialogRef.close(data);
               this.snackBar.open(`${data1.message}`)
             })
-
         }
       }
     }
-
   }
   ngOnInit() {
   }

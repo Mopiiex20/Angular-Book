@@ -5,7 +5,7 @@ import BookService from '../../services/books.service';
 import { CartService, LoginService } from 'src/app/services/common.servise';
 import AuthService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { BooksModel } from 'src/app/models/books-model';
+import { BooksModel, Book } from 'src/app/models/books-model';
 
 @Component({
   selector: 'app-content',
@@ -54,7 +54,7 @@ export class ContentComponent implements OnInit {
     this.router.navigate(["bookInfo", caller])
   }
 
-  addToCart(book: any) {
+  addToCart(book: Book) {
     this.cartServise.addToCart(book);
 
   }

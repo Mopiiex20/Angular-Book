@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import BookService from 'src/app/services/books.service';
-import { Book } from '../admin/admin.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Book } from 'src/app/models/books-model';
 
 @Component({
   selector: 'app-bookInfo',

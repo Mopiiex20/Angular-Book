@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { UserModel } from '../models/login-model';
 
 @Injectable()
 export class UserService {
@@ -10,7 +11,7 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
 
-    get(url: string): Observable<any> {
+    get(url: string): Observable<UserModel> {
         return this.http.get<any>(`${this.stUrl}${url}`)
     }
     getOne(url: string): Observable<any> {
