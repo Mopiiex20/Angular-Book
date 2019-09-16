@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   templateUrl: './NotWorkingComponent.component.html'
 })
 export class NotWorkingComponent implements OnInit {
-  myParam: any;
+   myParam: any;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {

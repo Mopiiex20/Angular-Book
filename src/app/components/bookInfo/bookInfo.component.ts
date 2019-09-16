@@ -16,8 +16,8 @@ export class BookInfoComponent implements OnInit {
     private bookService: BookService,
     private _snackBar: MatSnackBar,
   ) { }
-  currentBookId: number;
-  book: Book;
+ private currentBookId: number;
+ private book: Book;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => this.currentBookId = params['bookId']);

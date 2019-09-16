@@ -28,7 +28,7 @@
             </span>
         </ng-template>
         <ng-container *ngIf="changingName; else elseTemplate1">
-            <button (click)="onSubmit1()">Set new Name</button>
+            <button (click)="setName()">Set new Name</button>
         </ng-container>
         <ng-template #elseTemplate1>
             <button type="submit" (click)="changeName()">Change Name</button>

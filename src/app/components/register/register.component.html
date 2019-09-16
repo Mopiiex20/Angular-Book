@@ -35,12 +35,15 @@
 
 
         <mat-form-field class="example-full-width padd">
-            <input matInput placeholder="Age" formControlName="age" [formGroup]="form">
+            <input type="number" matInput placeholder="Age" formControlName="age" [formGroup]="form">
             <mat-error *ngIf="form.get('age').hasError('required')">
                 Age is required!
             </mat-error>
         </mat-form-field>
-        <button mat-flat-button type="submit">Sign Up</button>
+        <div>
+            <button mat-flat-button type="submit" [disabled]="!form.valid">Sign Up</button>
+
+        </div>
     </form>
 
 </div>

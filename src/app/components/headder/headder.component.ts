@@ -18,8 +18,8 @@ import { UserService } from 'src/app/services/users.service';
 })
 export class CartPopUp implements OnInit {
 
-  data: any;
-  totalPrice: number = 0;
+  public data: any;
+  public totalPrice: number = 0;
 
   subCart: Subscription;
 
@@ -42,11 +42,11 @@ export class CartPopUp implements OnInit {
       });
   }
 
-  bookIncrement(book: Book) {
+  private bookIncrement(book: Book) {
     this.cartService.addToCart(book);
   }
 
-  bookDecrement(book: Book) {
+  private bookDecrement(book: Book) {
     this.cartService.decrementBook(book)
   }
 
@@ -138,7 +138,7 @@ export class HeadderComponent implements OnInit, DoCheck {
     )
   }
 
-  permissionsCheck(perm: any[]) {
+  private permissionsCheck(perm: any[]) {
     let c1 = false;
     perm.forEach(element => {
       if (element === 'user') {
@@ -148,11 +148,11 @@ export class HeadderComponent implements OnInit, DoCheck {
     return c1
   }
 
-  openBottomSheet(): void {
+  private openBottomSheet(): void {
     this._bottomSheet.open(CartPopUp);
   }
 
-  logout() {
+  private logout() {
     this.trigger.openMenu();
     localStorage.clear()
     this.check = !this.check
@@ -160,7 +160,7 @@ export class HeadderComponent implements OnInit, DoCheck {
     this.loginService.setLogin(false)
   }
 
-  onSubmit() {
+  private onSubmit() {
 
     const body = this.logInForm.value;
     this.authService.post('login', body).subscribe((data: any) => {

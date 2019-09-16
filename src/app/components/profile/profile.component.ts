@@ -13,12 +13,12 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  results: any;
-  login: string;
-  subscription: Subscription;
-  avatar: any;
-  changingName: boolean = false;
-  permissions: any[] = [];
+  private results: any;
+  private login: string;
+  private subscription: Subscription;
+  private avatar: any;
+  private changingName: boolean = false;
+  private permissions: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -27,18 +27,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ChangeNameForm = new FormGroup({
+  private ChangeNameForm = new FormGroup({
     firstName: new FormControl(''),
   });
 
-  toBase64 = (file: any) => new Promise((resolve, reject) => {
+  public toBase64 = (file: any) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
 
-  async UploadAvatar() {
+  private async UploadAvatar() {
     let path: any = document.querySelector("#text-button-file") as HTMLElement;
 
     if (path.value !== "") {
@@ -74,14 +74,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
       }
     )
   }
-  onSubmit1() {
+  public setName() {
     this.userService.put(`${this.results.id}`, this.ChangeNameForm.value).subscribe()
     this.results.firstName = this.ChangeNameForm.value.firstName
     this.changingName = false;
     this.loginService.setName(this.ChangeNameForm.value.firstName);
 
   }
-  changeName() {
+  private changeName() {
     this.ChangeNameForm.patchValue({
       firstName: this.results.firstName
     })

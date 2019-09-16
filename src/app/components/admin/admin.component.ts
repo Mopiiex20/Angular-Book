@@ -32,19 +32,19 @@ export interface DialogData {
 })
 export class AdminComponent implements OnInit, DoCheck {
 
-  displayedColumns: string[] = ['select', 'ID', 'Title', 'Description', 'Price', 'Edit'];
-  displayedColumnsUsers: string[] = ['ID', 'E-mail', 'Users name', 'Age', 'Permissions'];
+  public displayedColumns: string[] = ['select', 'ID', 'Title', 'Description', 'Price', 'Edit'];
+  public displayedColumnsUsers: string[] = ['ID', 'E-mail', 'Users name', 'Age', 'Permissions'];
 
-  data: any;
-  data1: any;
+  private booksData: any;
+  private usersData: any;
 
-  dataSource: any;
-  dataSource1: any;
+  public booksDataSource: any;
+  public usersDataSource: any;
 
-  selection = new SelectionModel<Book>(true, []);
+  private selection = new SelectionModel<Book>(true, []);
   toggleDeleteSelected: boolean = false;
-  editing: number = null;
-  currentlyEditing: boolean = false
+ private editing: number = null;
+ private currentlyEditing: boolean = false
 
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -58,14 +58,14 @@ export class AdminComponent implements OnInit, DoCheck {
     public dialog: MatDialog
   ) { }
 
-  EditForm = new FormGroup({
+  private EditForm = new FormGroup({
     title: new FormControl(''),
     description: new FormControl(''),
     price: new FormControl('')
   });
 
   startEditing(bookId: any) {
-    let curBook = this.dataSource._data._value.find(
+    let curBook = this.booksDataSource._data._value.find(
       (book: any) => book._id === bookId
     )
     this.EditForm.patchValue({
@@ -81,7 +81,7 @@ export class AdminComponent implements OnInit, DoCheck {
     this.booksService.updateBook(`books/${bookId}`, this.EditForm.value).subscribe(
      
     )
-    this.data.forEach((book: any) => {
+    this.booksData.forEach((book: any) => {
       if (book._id === bookId) {
         book.title = this.EditForm.value.title;
         book.description = this.EditForm.value.description;
@@ -95,19 +95,19 @@ export class AdminComponent implements OnInit, DoCheck {
   }
 
   isAllSelected() {
-    if (this.dataSource) {
+    if (this.booksDataSource) {
       const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
+      const numRows = this.booksDataSource.data.length;
       return numSelected === numRows;
     }
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    if (this.dataSource) {
+    if (this.booksDataSource) {
       this.isAllSelected() ?
         this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+        this.booksDataSource.data.forEach(row => this.selection.select(row));
     }
   }
 
@@ -124,20 +124,20 @@ export class AdminComponent implements OnInit, DoCheck {
       data.forEach(book => {
         book.edit = 'edit'
       });
-      this.data = data;
-      this.dataSource = new MatTableDataSource<Book>(data);
-      this.dataSource.sort = this.sort;
+      this.booksData = data;
+      this.booksDataSource = new MatTableDataSource<Book>(data);
+      this.booksDataSource.sort = this.sort;
     });
     this.usersService.get('users').subscribe((data: any) => {
 
-      this.data1 = data.users;
-      this.dataSource1 = new MatTableDataSource<any>(data.users);
-      this.dataSource1.paginator = this.paginator;
+      this.usersData = data.users;
+      this.usersDataSource = new MatTableDataSource<any>(data.users);
+      this.usersDataSource.paginator = this.paginator;
     })
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    this.usersDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   deleteSelected() {
@@ -148,13 +148,13 @@ export class AdminComponent implements OnInit, DoCheck {
     const check = confirm('Delete Selected Books?')
     if (check) {
       delArr.forEach(element => {
-        this.data = this.data.filter((book: any) => book._id !== element)
+        this.booksData = this.booksData.filter((book: any) => book._id !== element)
 
         this.booksService.deleteBook(`${element}`).subscribe(
 
         )
       });
-      this.dataSource = new MatTableDataSource<Book>(this.data);
+      this.booksDataSource = new MatTableDataSource<Book>(this.booksData);
       this.selection.clear();
     }
   }
@@ -171,9 +171,9 @@ export class AdminComponent implements OnInit, DoCheck {
         data.forEach(book => {
           book.edit = 'edit'
         });
-        this.data = data;
-        this.dataSource = new MatTableDataSource<Book>(data);
-        this.dataSource.sort = this.sort;
+        this.booksData = data;
+        this.booksDataSource = new MatTableDataSource<Book>(data);
+        this.booksDataSource.sort = this.sort;
       });
 
     });

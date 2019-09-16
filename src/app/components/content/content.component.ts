@@ -19,9 +19,9 @@ export class ContentComponent implements OnInit {
     bookTitle: this.bookTitle
   })
 
-  results: BooksModel[];
-  isLoggedIn: boolean = false;
-  loading: boolean = true;
+ public results: BooksModel[];
+ private isLoggedIn: boolean = false;
+ private loading: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,

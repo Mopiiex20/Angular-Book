@@ -7,7 +7,7 @@ import {
   AuthGuard as AuthGuard
 } from './core/guards/auth-guard';
 import { AdminComponent } from './components/admin/admin.component';
-import { NotWorkingComponent } from './components/notWorkingComponent/notWorking';
+import { NotWorkingComponent } from './components/show-error500-component.ts/notWorking';
 import { BookInfoComponent } from './components/bookInfo/bookInfo.component';
 
 const routes: Routes = [

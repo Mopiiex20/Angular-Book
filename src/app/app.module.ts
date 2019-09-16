@@ -20,7 +20,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { UserService } from './services/users.service';
 import { AdminComponent, Dialog } from './components/admin/admin.component';
 import { MatNativeDateModule } from '@angular/material/core'
-import { NotWorkingComponent } from './components/notWorkingComponent/notWorking';
+import { NotWorkingComponent } from './components/show-error500-component.ts/notWorking';
 import { environment } from 'src/environments/environment';
 import { BookInfoComponent } from './components/bookInfo/bookInfo.component';
 import { CoreModule } from './core/core.module';
