@@ -1,6 +1,13 @@
-version: '3'
+version: "3"
 services:
   client:
-    build: client
+    
+    image: mopiiex/angular-books:firsttry # goes to youruser DockerHub registry
     ports:
-    - '4200:4200'`
+      - "4200:4200"
+  api:
+    image: mopiiex/nest-api:v1 # goes to youruser DockerHub registry
+    ports:
+      - "4201:4201"
+    environment:
+      PORT : 4201
